@@ -5,320 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo Virtual Premium</title>
     <style>
-        /* Estilos Gerais - Design Premium com Animações (mantido da versão anterior) */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-            overflow-x: hidden;
-        }
-        header {
-            background-color: #1a1a1a;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            letter-spacing: 1px;
-            animation: fadeInDown 1s ease-out;
-        }
-        #cart-icon {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-        }
-        #cart-icon span {
-            background-color: #ff4d4d;
-            color: white;
-            border-radius: 50%;
-            padding: 5px 10px;
-            font-size: 0.8em;
-            position: absolute;
-            top: -10px;
-            right: -10px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Carrossel Principal (mantido) */
-        .carousel {
-            position: relative;
-            max-width: 100%;
-            margin: 20px auto;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        .carousel-inner {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .carousel-item {
-            min-width: 100%;
-            height: 400px;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 2em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            animation: zoomIn 5s infinite alternate;
-        }
-        .carousel-controls {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-        }
-        .carousel-btn {
-            background-color: rgba(0,0,0,0.5);
-            color: #fff;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .carousel-btn:hover {
-            background-color: rgba(0,0,0,0.8);
-        }
-
-        /* Mini-Carrossel por Produto */
-        .product-carousel {
-            position: relative;
-            overflow: hidden;
-            height: 200px;
-        }
-        .product-carousel-inner {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        .product-carousel-item {
-            min-width: 100%;
-            height: 200px;
-        }
-        .product-carousel-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .product-carousel-controls {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-        }
-        .product-carousel-btn {
-            background-color: rgba(0,0,0,0.5);
-            color: #fff;
-            border: none;
-            padding: 5px;
-            cursor: pointer;
-            font-size: 0.8em;
-        }
-
-        /* Seções (mantido) */
-        .section {
-            margin-bottom: 40px;
-        }
-        .section h2 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 20px;
-            animation: fadeIn 1s ease-in;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .product-card {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: slideUp 0.5s ease-out;
-        }
-        .product-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-        .product-info {
-            padding: 15px;
-            text-align: center;
-        }
-        .product-info h3 {
-            font-size: 1.5em;
-            margin: 10px 0;
-        }
-        .product-info p {
-            font-size: 1.2em;
-            color: #666;
-            margin: 5px 0;
-        }
-        .options {
-            margin: 10px 0;
-        }
-        .options select {
-            padding: 5px;
-            margin: 5px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px 5px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        .btn-add-cart {
-            background-color: #007bff;
-            color: #fff;
-        }
-        .btn-add-cart:hover {
-            background-color: #0056b3;
-        }
-        .btn-whatsapp {
-            background-color: #25D366;
-            color: #fff;
-        }
-        .btn-whatsapp:hover {
-            background-color: #1DA851;
-        }
-        #cart-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeInModal 0.3s ease;
-        }
-        #cart-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-            position: relative;
-            animation: scaleIn 0.3s ease;
-        }
-        #close-cart {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 1.5em;
-        }
-        #cart-items {
-            list-style: none;
-            padding: 0;
-        }
-        #cart-items li {
-            border-bottom: 1px solid #ddd;
-            padding: 10px 0;
-            display: flex;
-            justify-content: space-between;
-        }
-        #cart-total {
-            font-weight: bold;
-            margin: 10px 0;
-        }
-        .btn-send-cart {
-            background-color: #25D366;
-            color: #fff;
-            padding: 15px;
-            text-align: center;
-            display: block;
-            margin-top: 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .btn-send-cart:hover {
-            background-color: #1DA851;
-            transform: translateY(-2px);
-        }
-        footer {
-            background-color: #1a1a1a;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            margin-top: 20px;
-        }
-        footer .contact-info {
-            margin-top: 10px;
-        }
-        footer .contact-info p {
-            margin: 5px 0;
-        }
-
-        /* Keyframes para Animações (mantido) */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes zoomIn {
-            from { transform: scale(1); }
-            to { transform: scale(1.05); }
-        }
-        @keyframes fadeInModal {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes scaleIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
+        body {font-family: Arial, sans-serif;margin: 0;padding: 0;background: #f4f4f9;color: #333;overflow-x: hidden;}
+        header {background: #1a1a1a;color: #fff;padding: 20px;text-align: center;position: relative;}
+        header h1 {margin: 0;font-size: 2.5em;animation: fadeInDown 1s;}
+        #cart-icon {position: absolute;top: 20px;right: 20px;cursor: pointer;}
+        #cart-icon span {background: #ff4d4d;color: white;border-radius: 50%;padding: 5px 10px;font-size: 0.8em;position: absolute;top: -10px;right: -10px;}
+        .container {max-width: 1200px;margin: 0 auto;padding: 20px;}
+        .carousel {position: relative;max-width: 100%;margin: 20px auto;overflow: hidden;border-radius: 10px;box-shadow: 0 4px 15px rgba(0,0,0,0.1);}
+        .carousel-inner {display: flex;transition: transform 0.5s ease;}
+        .carousel-item {min-width: 100%;height: 400px;background-size: cover;background-position: center;display: flex;align-items: center;justify-content: center;color: #fff;font-size: 2em;text-shadow: 2px 2px 4px rgba(0,0,0,0.5);}
+        .carousel-controls {position: absolute;top: 50%;width: 100%;display: flex;justify-content: space-between;transform: translateY(-50%);}
+        .carousel-btn {background: rgba(0,0,0,0.5);color: #fff;border: none;padding: 10px;cursor: pointer;}
+        .product-carousel {position: relative;overflow: hidden;height: 200px;}
+        .product-carousel-inner {display: flex;transition: transform 0.5s;}
+        .product-carousel-item {min-width: 100%;height: 200px;}
+        .product-carousel-item img {width: 100%;height: 100%;object-fit: cover;}
+        .product-carousel-controls {position: absolute;top: 50%;width: 100%;display: flex;justify-content: space-between;transform: translateY(-50%);}
+        .product-carousel-btn {background: rgba(0,0,0,0.5);color: #fff;border: none;padding: 5px;cursor: pointer;font-size: 0.8em;}
+        .section {margin-bottom: 40px;}
+        .section h2 {text-align: center;font-size: 2em;margin-bottom: 20px;}
+        .products-grid {display: grid;grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));gap: 20px;}
+        .product-card {background: #fff;border-radius: 10px;box-shadow: 0 4px 15px rgba(0,0,0,0.1);overflow: hidden;transition: transform 0.3s, box-shadow 0.3s;}
+        .product-card:hover {transform: translateY(-10px) scale(1.05);box-shadow: 0 8px 25px rgba(0,0,0,0.2);}
+        .product-info {padding: 15px;text-align: center;}
+        .product-info h3 {font-size: 1.5em;margin: 10px 0;}
+        .product-info p {font-size: 1.2em;color: #666;margin: 5px 0;}
+        .options {margin: 10px 0;}
+        .options select {padding: 5px;margin: 5px;border-radius: 5px;border: 1px solid #ddd;}
+        .btn {display: inline-block;padding: 10px 20px;margin: 10px 5px;border-radius: 5px;text-decoration: none;font-weight: bold;transition: background 0.3s, transform 0.2s;}
+        .btn-add-cart {background: #007bff;color: #fff;}
+        .btn-whatsapp {background: #25D366;color: #fff;}
+        #cart-modal {display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.5);justify-content: center;align-items: center;z-index: 1000;}
+        #cart-content {background: #fff;padding: 20px;border-radius: 10px;width: 80%;max-width: 600px;position: relative;}
+        #close-cart {position: absolute;top: 10px;right: 10px;cursor: pointer;font-size: 1.5em;}
+        #cart-items {list-style: none;padding: 0;}
+        #cart-items li {border-bottom: 1px solid #ddd;padding: 10px 0;display: flex;justify-content: space-between;}
+        #cart-total {font-weight: bold;margin: 10px 0;}
+        .btn-send-cart {background: #25D366;color: #fff;padding: 15px;text-align: center;display: block;margin-top: 20px;border-radius: 5px;text-decoration: none;}
+        footer {background: #1a1a1a;color: #fff;text-align: center;padding: 20px;margin-top: 20px;}
+        footer .contact-info {margin-top: 10px;}
+        @keyframes fadeInDown {from {opacity: 0;transform: translateY(-20px);} to {opacity: 1;transform: translateY(0);}}
     </style>
 </head>
 <body>
     <header>
         <h1>Catálogo Virtual Premium</h1>
-        <div id="cart-icon" onclick="openCart()">
-            🛒 <span id="cart-count">0</span>
-        </div>
+        <div id="cart-icon" onclick="openCart()">🛒 <span id="cart-count">0</span></div>
     </header>
 
-    <!-- Carrossel Principal (mantido) -->
     <div class="carousel">
         <div class="carousel-inner" id="carousel-inner">
-            <div class="carousel-item" style="background-image: url('https://via.placeholder.com/1200x400?text=Promoção+Especial+1');">Promoção Especial 1</div>
-            <div class="carousel-item" style="background-image: url('https://via.placeholder.com/1200x400?text=Novidades+em+Eletrônicos');">Novidades em Eletrônicos</div>
-            <div class="carousel-item" style="background-image: url('https://via.placeholder.com/1200x400?text=Ofertas+em+Moda');">Ofertas em Moda</div>
+            <div class="carousel-item" style="background-image: url('https://via.placeholder.com/1200x400?text=Promoção+1');">Promoção 1</div>
+            <div class="carousel-item" style="background-image: url('https://via.placeholder.com/1200x400?text=Novidades');">Novidades</div>
+            <div class="carousel-item" style="background-image: url('https://via.placeholder.com/1200x400?text=Ofertas');">Ofertas</div>
         </div>
         <div class="carousel-controls">
             <button class="carousel-btn" onclick="prevSlide()">&lt;</button>
@@ -327,17 +66,15 @@
     </div>
 
     <div class="container">
-        <!-- Seção 1: Moda e Acessórios -->
-        <section class="section" id="section1">
+        <section class="section">
             <h2>Moda e Acessórios</h2>
             <div class="products-grid">
                 <div class="product-card">
-                    <!-- Mini-Carrossel de Imagens -->
                     <div class="product-carousel">
                         <div class="product-carousel-inner" id="carousel-product-1">
-                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Camisa+Moda+1" alt="Camisa Moda 1"></div>
-                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Camisa+Moda+2" alt="Camisa Moda 2"></div>
-                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Camisa+Moda+3" alt="Camisa Moda 3"></div>
+                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Camisa+1" alt="1"></div>
+                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Camisa+2" alt="2"></div>
+                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Camisa+3" alt="3"></div>
                         </div>
                         <div class="product-carousel-controls">
                             <button class="product-carousel-btn" onclick="prevProductSlide('product-1')">&lt;</button>
@@ -347,112 +84,15 @@
                     <div class="product-info">
                         <h3>Camisa Elegante</h3>
                         <p>R$ 89,99</p>
-                        <p>Descrição breve da camisa.</p>
-                        <!-- # Opções de tamanho e cor - remova todo esse div se não necessário para o produto (ex: peças únicas) -->
+                        <p>Descrição breve.</p>
                         <div class="options">
-                            <select id="color-product-1">
-                                <option value="Vermelho">Vermelho</option>
-                                <option value="Azul">Azul</option>
-                                <option value="Preto">Preto</option>
-                            </select>
-                            <select id="size-product-1">
-                                <option value="P">P</option>
-                                <option value="M">M</option>
-                                <option value="G">G</option>
-                            </select>
+                            <select id="color-product-1"><option>Vermelho</option><option>Azul</option></select>
+                            <select id="size-product-1"><option>P</option><option>M</option><option>G</option></select>
                         </div>
-                        <!-- # Fim das opções -->
-                        <button class="btn btn-add-cart" onclick="addToCart('Camisa Elegante', 89.99, 'Descrição breve da camisa.', 'product-1')">Adicionar ao Carrinho</button>
-                        <a href="#" class="btn btn-whatsapp" onclick="requestWhatsapp('Camisa Elegante', 89.99, 'Descrição breve da camisa.', 'product-1')">Pedir pelo WhatsApp</a>
+                        <button class="btn btn-add-cart" onclick="addToCart('Camisa Elegante', 89.99, '', 'product-1')">Adicionar</button>
+                        <a href="#" class="btn btn-whatsapp" onclick="requestWhatsapp('Camisa Elegante', 89.99, '', 'product-1')">WhatsApp</a>
                     </div>
                 </div>
-                <!-- Adicione mais produtos semelhantes aqui -->
-            </div>
-        </section>
-
-        <!-- Seção 2: Eletrônicos e Gadgets -->
-        <section class="section" id="section2">
-            <h2>Eletrônicos e Gadgets</h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <!-- Mini-Carrossel de Imagens -->
-                    <div class="product-carousel">
-                        <div class="product-carousel-inner" id="carousel-product-2">
-                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Smartphone+1" alt="Smartphone 1"></div>
-                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Smartphone+2" alt="Smartphone 2"></div>
-                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Smartphone+3" alt="Smartphone 3"></div>
-                        </div>
-                        <div class="product-carousel-controls">
-                            <button class="product-carousel-btn" onclick="prevProductSlide('product-2')">&lt;</button>
-                            <button class="product-carousel-btn" onclick="nextProductSlide('product-2')">&gt;</button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Smartphone Avançado</h3>
-                        <p>R$ 1999,99</p>
-                        <p>Descrição breve do smartphone.</p>
-                        <!-- # Opções de tamanho e cor - remova todo esse div se não necessário para o produto (ex: peças únicas) -->
-                        <div class="options">
-                            <select id="color-product-2">
-                                <option value="Prata">Prata</option>
-                                <option value="Preto">Preto</option>
-                                <option value="Dourado">Dourado</option>
-                            </select>
-                            <select id="size-product-2">
-                                <option value="128GB">128GB</option>
-                                <option value="256GB">256GB</option>
-                                <option value="512GB">512GB</option>
-                            </select>
-                        </div>
-                        <!-- # Fim das opções -->
-                        <button class="btn btn-add-cart" onclick="addToCart('Smartphone Avançado', 1999.99, 'Descrição breve do smartphone.', 'product-2')">Adicionar ao Carrinho</button>
-                        <a href="#" class="btn btn-whatsapp" onclick="requestWhatsapp('Smartphone Avançado', 1999.99, 'Descrição breve do smartphone.', 'product-2')">Pedir pelo WhatsApp</a>
-                    </div>
-                </div>
-                <!-- Adicione mais produtos semelhantes aqui -->
-            </div>
-        </section>
-
-        <!-- Seção 3: Casa e Decoração -->
-        <section class="section" id="section3">
-            <h2>Casa e Decoração</h2>
-            <div class="products-grid">
-                <div class="product-card">
-                    <!-- Mini-Carrossel de Imagens -->
-                    <div class="product-carousel">
-                        <div class="product-carousel-inner" id="carousel-product-3">
-                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Vaso+1" alt="Vaso 1"></div>
-                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Vaso+2" alt="Vaso 2"></div>
-                            <div class="product-carousel-item"><img src="https://via.placeholder.com/300x200?text=Vaso+3" alt="Vaso 3"></div>
-                        </div>
-                        <div class="product-carousel-controls">
-                            <button class="product-carousel-btn" onclick="prevProductSlide('product-3')">&lt;</button>
-                            <button class="product-carousel-btn" onclick="nextProductSlide('product-3')">&gt;</button>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3>Vaso Decorativo</h3>
-                        <p>R$ 49,99</p>
-                        <p>Descrição breve do vaso.</p>
-                        <!-- # Opções de tamanho e cor - remova todo esse div se não necessário para o produto (ex: peças únicas) -->
-                        <div class="options">
-                            <select id="color-product-3">
-                                <option value="Branco">Branco</option>
-                                <option value="Azul">Azul</option>
-                                <option value="Verde">Verde</option>
-                            </select>
-                            <select id="size-product-3">
-                                <option value="Pequeno">Pequeno</option>
-                                <option value="Médio">Médio</option>
-                                <option value="Grande">Grande</option>
-                            </select>
-                        </div>
-                        <!-- # Fim das opções -->
-                        <button class="btn btn-add-cart" onclick="addToCart('Vaso Decorativo', 49.99, 'Descrição breve do vaso.', 'product-3')">Adicionar ao Carrinho</button>
-                        <a href="#" class="btn btn-whatsapp" onclick="requestWhatsapp('Vaso Decorativo', 49.99, 'Descrição breve do vaso.', 'product-3')">Pedir pelo WhatsApp</a>
-                    </div>
-                </div>
-                <!-- Adicione mais produtos semelhantes aqui -->
             </div>
         </section>
     </div>
@@ -463,40 +103,68 @@
             <h2>Seu Carrinho</h2>
             <ul id="cart-items"></ul>
             <p id="cart-total">Total: R$ 0,00</p>
-            <a href="#" id="send-cart-whatsapp" class="btn-send-cart" onclick="sendCartWhatsapp()">Enviar Lista pelo WhatsApp</a>
+            <a href="#" class="btn-send-cart" onclick="sendCartWhatsapp()">Enviar no WhatsApp</a>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2025 Seu Negócio. Todos os direitos reservados.</p>
+        <p>© 2025 Seu Negócio</p>
         <div class="contact-info">
-            <!-- Edite aqui os contatos -->
-            <p>Email: contato@seunegocio.com</p>
-            <p>Telefones:</p>
-            <ul>
-                <li>Vendedor 1: (11) 99999-9999</li>
-                <li>Vendedor 2: (11) 88888-8888</li>
-                <!-- Adicione mais <li> se houver múltiplos vendedores, ou remova se só um -->
-            </ul>
+            <p>Email: contato@exemplo.com</p>
+            <p>Tel: (11) 99999-9999</p>
         </div>
     </footer>
 
     <script>
         let cart = [];
-        const whatsappNumber = '5511999999999'; // Substitua pelo número de WhatsApp do vendedor
+        const whatsappNumber = '5511999999999';
 
-        // Funções do Carrinho (atualizado para capturar opções)
-        function addToCart(name, price, description, productId) {
-            let color = document.getElementById(`color-${productId}`) ? document.getElementById(`color-${productId}`).value : '';
-            let size = document.getElementById(`size-${productId}`) ? document.getElementById(`size-${productId}`).value : '';
-            cart.push({ name, price, description, color, size });
-            updateCartCount();
-            alert(`${name} adicionado ao carrinho!`);
-        }
-
-        function updateCartCount() {
+        function addToCart(name, price, desc, id) {
+            let color = document.getElementById(`color-${id}`)?.value || '';
+            let size = document.getElementById(`size-${id}`)?.value || '';
+            cart.push({name, price, color, size});
             document.getElementById('cart-count').innerText = cart.length;
+            alert(name + ' adicionado!');
         }
 
         function openCart() {
-            const cartItems = document.getElemen
+            let items = document.getElementById('cart-items'); items.innerHTML = '';
+            let total = 0;
+            cart.forEach(i => {
+                let li = document.createElement('li');
+                li.innerText = `${i.name} (${i.color}${i.size ? ', ' + i.size : ''}) - R$ ${i.price.toFixed(2)}`;
+                items.appendChild(li); total += i.price;
+            });
+            document.getElementById('cart-total').innerText = `Total: R$ ${total.toFixed(2)}`;
+            document.getElementById('cart-modal').style.display = 'flex';
+        }
+
+        function closeCart() { document.getElementById('cart-modal').style.display = 'none'; }
+
+        function requestWhatsapp(name, price, desc, id) {
+            let color = document.getElementById(`color-${id}`)?.value || '';
+            let size = document.getElementById(`size-${id}`)?.value || '';
+            let msg = `Olá! Quero: ${name} (${color}${size ? ', ' + size : ''}) - R$ ${price}`;
+            window.location.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
+        }
+
+        function sendCartWhatsapp() {
+            if (!cart.length) return alert('Carrinho vazio!');
+            let msg = 'Minha lista:\n\n';
+            let total = 0;
+            cart.forEach(i => { msg += `${i.name} (${i.color}${i.size ? ', ' + i.size : ''}) - R$ ${i.price}\n`; total += i.price; });
+            msg += `\nTotal: R$ ${total.toFixed(2)}`;
+            window.location.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
+        }
+
+        let currentSlide = 0;
+        function nextSlide() { currentSlide = (currentSlide + 1) % 3; document.getElementById('carousel-inner').style.transform = `translateX(-${currentSlide * 100}%)`; }
+        function prevSlide() { currentSlide = (currentSlide - 1 + 3) % 3; document.getElementById('carousel-inner').style.transform = `translateX(-${currentSlide * 100}%)`; }
+        setInterval(nextSlide, 5000);
+
+        const productSlides = {};
+        function nextProductSlide(id) { productSlides[id] = (productSlides[id] || 0) + 1; document.getElementById(`carousel-${id}`).style.transform = `translateX(-${(productSlides[id] % 3) * 100}%)`; }
+        function prevProductSlide(id) { productSlides[id] = (productSlides[id] || 0) - 1; document.getElementById(`carousel-${id}`).style.transform = `translateX(-${((productSlides[id] % 3) + 3) % 3 * 100}%)`; }
+    </script>
+</body>
+</html>
